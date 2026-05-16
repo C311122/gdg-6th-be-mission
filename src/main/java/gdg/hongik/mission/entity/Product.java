@@ -1,45 +1,27 @@
 package gdg.hongik.mission.entity;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.*;
 
 @Entity
 @Getter
-@NoArgsConstructor
-@Table(name = "products")
+@Setter
+@Builder
+@NoArgsConstructor // JPA용
+@AllArgsConstructor // Builde용
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productId;
+    private Long id;
 
-    @Column(nullable = false, unique = true, length = 100)
     private String name;
+    private int price;
+    private int stock;
 
-    @Column(nullable = false)
-    private Integer price;
-
-    @Column(nullable = false)
-    private Integer quantity;
-
-    public Product(String name, Integer price, Integer quantity) {
-        this.name = name;
-        this.price = price;
-        this.quantity = quantity;
-    }
-
-    public void addQuantity(Integer addAmount) {
-        if (addAmount == null || addAmount < 0) {
-            throw new IllegalArgumentException();
-        }
-        this.quantity += addAmount;
-    }
-
-    public void subQuantity(Integer subAmount) {
-        if (this.quantity < subAmount) {
-            throw new IllegalStateException();
-        }
-        this.quantity -= subAmount;
-    }
+    // 구매/재고 추가 요청용
+    private int quantity;
 }

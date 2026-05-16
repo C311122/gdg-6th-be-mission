@@ -1,31 +1,29 @@
 package gdg.hongik.mission.controller;
 
+import gdg.hongik.mission.dto.OrderRequest;
 import gdg.hongik.mission.entity.Product;
-import gdg.hongik.mission.service.ProductUserService;
-import org.springframework.http.HttpStatus;
+import gdg.hongik.mission.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
+@RequestMapping("/products")
 public class ProductUserController {
 
-    private ProductUserService productUserService;
+    private final ProductService productService;
 
-    public ProductUserController(ProductUserService productUserService) {
-        this.productUserService = productUserService;
+    public ProductUserController(ProductService productService) {
+        this.productService = productService;
     }
 
-    @GetMapping("/products")
+    @GetMapping
     public Product getProduct(@RequestParam String name) {
-        return productUserService.getProduct(name);
+        return productService.getProduct(name);
     }
 
-    @PostMapping("/orders")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Map<String, Object> createOrder(@RequestBody Map<String, List<Map<String, Object>>> request) {
-        List<Map<String, Object>> orderItems = request.get("orderItems");
-        return productUserService.createOrder(orderItems);
+    @PostMapping("/purchase")
+    public String purchase(@RequestBody OrderRequest.OrderCreateRequest requests) {
+        return productService.purchase(requests);
     }
 }
