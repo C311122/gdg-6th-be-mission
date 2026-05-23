@@ -1,27 +1,28 @@
 package gdg.hongik.mission.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Table(name = "products")
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor // JPA용
-@AllArgsConstructor // Builde용
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // JPA용
+@AllArgsConstructor // Builder용
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private Long id;
 
+    @Column(name = "product_name", length = 50)
     private String name;
-    private int price;
-    private int stock;
 
-    // 구매/재고 추가 요청용
-    private int quantity;
+    @Column(name = "product_price", length = 100)
+    private int price;
+
+    @Column(name = "product_stock", length = 255)
+    private int stock;
 }

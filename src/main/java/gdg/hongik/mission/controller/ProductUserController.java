@@ -1,29 +1,31 @@
 package gdg.hongik.mission.controller;
 
 import gdg.hongik.mission.dto.OrderRequest;
-import gdg.hongik.mission.entity.Product;
-import gdg.hongik.mission.service.ProductService;
+import gdg.hongik.mission.dto.OrderResponse;
+import gdg.hongik.mission.dto.ProductResponse;
+import gdg.hongik.mission.service.ProductUserService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductUserController {
 
-    private final ProductService productService;
-
-    public ProductUserController(ProductService productService) {
-        this.productService = productService;
-    }
+    private final ProductUserService productUserService;
 
     @GetMapping
-    public Product getProduct(@RequestParam String name) {
-        return productService.getProduct(name);
+    public ResponseEntity<ProductResponse.ProductGetResponse> getProduct(@RequestParam String name) {
+        ProductResponse.ProductGetResponse response = productUserService.getProduct(name);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/purchase")
-    public String purchase(@RequestBody OrderRequest.OrderCreateRequest requests) {
-        return productService.purchase(requests);
+    public ResponseEntity<OrderResponse.OrderCreateResponse> purchase(@RequestBody @Valid OrderRequest.OrderCreateRequest requests) {
+        OrderResponse.OrderCreateResponse response = productUserService.purchase(requests);
+        return ResponseEntity.ok(response);
     }
 }
