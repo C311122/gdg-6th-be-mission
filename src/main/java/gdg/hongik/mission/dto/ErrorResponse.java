@@ -1,4 +1,4 @@
 package gdg.hongik.mission.dto;
 
-public class OrderResponse {
+public class ErrorResponse {
 }
